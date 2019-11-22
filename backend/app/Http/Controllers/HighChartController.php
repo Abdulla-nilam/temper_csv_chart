@@ -30,6 +30,7 @@ class HighChartController extends Controller
         $steps = array(0, 20, 40, 50, 70, 90, 99, 100);
         $response = $this->highChartRepository->all($steps);
 
+        /*converting formatted data to highchart readable format*/
         $number = 1;
         $data = array();
         foreach ($response['data'] as $key => $item) {

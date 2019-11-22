@@ -25,9 +25,10 @@ class HighChartRepository implements HighChartRepositoryInterface
         $formattedData = $this->groupByWeeksAndPercentage($weeksByDates, $data,
             $userCount, $steps);
 
-        $return = ['data'       => $formattedData,
-                   'user_count' => $userCount,
-                   'weeks'      => $weeksByDates
+        $return = [
+            'data' => $formattedData,
+            'user_count' => $userCount,
+            'weeks' => $weeksByDates
         ];
 
         return $return;
@@ -35,6 +36,8 @@ class HighChartRepository implements HighChartRepositoryInterface
     }
 
     /**
+     * format CSV data
+     *
      * @param $collection
      *
      * @return array
@@ -55,6 +58,8 @@ class HighChartRepository implements HighChartRepositoryInterface
     }
 
     /**
+     * get all weeks start and end date by given date
+     *
      * @return array
      * @throws \Exception
      */
@@ -84,9 +89,14 @@ class HighChartRepository implements HighChartRepositoryInterface
         return $weeksByDate;
     }
 
+
     /**
+     * grouping data by week and the percentage
+     *
      * @param $weeksByDates
      * @param $data
+     * @param $userCount
+     * @param $steps
      *
      * @return array
      */
@@ -107,7 +117,7 @@ class HighChartRepository implements HighChartRepositoryInterface
                     $dataGroupByWeeks[] = $datum;
                 }
             }
-            $formattedData[]/*$weeksByDate['start']*/
+            $formattedData[]
                 = $this->groupByPercentage($dataGroupByWeeks, $userCount,
                 $steps);
         }
@@ -115,6 +125,15 @@ class HighChartRepository implements HighChartRepositoryInterface
     }
 
 
+    /**
+     * grouping data by percentage
+     *
+     * @param $dataGroupByWeeks
+     * @param $userCount
+     * @param $steps
+     *
+     * @return array
+     */
     private function groupByPercentage(
         $dataGroupByWeeks,
         $userCount,
