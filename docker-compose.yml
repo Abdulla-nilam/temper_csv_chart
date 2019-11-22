@@ -1,0 +1,57 @@
+version: "3"
+# Development version
+services:
+  db_sql:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - db_sql:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - "MYSQL_DATABASE=db_temper"
+      - "MYSQL_USER=user"
+      - "MYSQL_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+    networks:
+      - temper
+    ports:
+      - "33070:3306"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dev.dockerfile
+    working_dir: /var/www/backend
+    depends_on:
+      - db_sql
+    volumes:
+      - .:/var/www/
+    networks:
+      - temper
+    environment:
+      DB_PORT: 3306
+      DB_HOST: ${SQL_DB_HOST}
+      DB_DATABASE: ${SQL_DB_DATABASE}
+      DB_USERNAME: ${SQL_DB_USERNAME}
+      DB_PASSWORD: ${SQL_DB_PASSWORD}
+
+  web:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    working_dir: /var/www/
+    volumes:
+      - .:/var/www/
+    networks:
+      - temper
+    ports:
+      - 8099:8099
+    depends_on:
+      - backend
+
+volumes:
+  db_sql:
+
+networks:
+  temper:
+    driver: bridge
