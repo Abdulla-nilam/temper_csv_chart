@@ -55,6 +55,10 @@ To run the project Hit
 http://localhost:8099/
 ```
 
+## In Addition
+
+CSV files placed in `backend/storage/export.csv`
+
 ## Built With ♥
 
 * [Laravel 6](https://laravel.com/) - The php framework used
